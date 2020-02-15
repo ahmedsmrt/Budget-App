@@ -9,8 +9,6 @@
 // Budget Controller
 var budgetController =  (function() { 
 
-    // Function Constructor to store Expense so we can display it later in the UI
-    // This constructor is designed to store data for everything associated with the Expense
     var Expense = function(id, description, value) {
         this.id = id;
         this.description = description;
@@ -30,14 +28,10 @@ var budgetController =  (function() {
 
     };
 
-    // Prototype function just to return percentage method
-
     Expense.prototype.getPercentage = function() {
         return this.percentage;
     };
 
-
-    // Income Contstructor 
     var Income = function(id, description, value) {
         this.id = id;
         this.description = description;
@@ -170,7 +164,7 @@ var budgetController =  (function() {
  var UiController = (function() {
 
     // A quick section for all the dom strings used for DOM manipulation
-    // Created for ease of access of classes 
+    // Created for ease of access of class change
 
     var DOMstrings = {
         inputType: '.add__type',
@@ -188,8 +182,6 @@ var budgetController =  (function() {
         dateLabel: '.budget__title--month'
     };
 
-
-    // Function that utilizes a technique using split and substr to format numbers
 
     var formatNumber = function(num, type) {
         var numSplit, int, dec;
@@ -211,7 +203,6 @@ var budgetController =  (function() {
 
     };
 
-    // A function used to list the items of a node list
     var  nodeListForEach = function(list, callback) {
         for(var i = 0; i < list.length; i++) {
             callback(list[i], i);
@@ -219,15 +210,11 @@ var budgetController =  (function() {
     };
 
 
-
-// All the functions made public within the UIController 
-
     return {
         getInput: function() {
             return {
                 type: document.querySelector(DOMstrings.inputType).value, //Will be either inc or exp
                 description: document.querySelector(DOMstrings.descriptionType).value,
-                // Used parsefloat to convert string into a number 
                 value: parseFloat(document.querySelector(DOMstrings.valueType).value)
             }
 
@@ -238,7 +225,7 @@ var budgetController =  (function() {
             // Create HTML string with placeholder tags
             var html, newHtml, element;
 
-            // The structure of the html markup you want to insert 
+
             if (type === 'inc') {
                 element = DOMstrings.incomeContainer;
                 html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
@@ -258,7 +245,7 @@ var budgetController =  (function() {
             newHtml = newHtml.replace('%description%', obj.description);
             newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
-            // Insert the HTML into the DOM with insertAdjacentHTML with (beforeend, beforebeginning, afterend, afterbeginning)
+            // Insert the HTML into the DOM
 
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
@@ -274,7 +261,6 @@ var budgetController =  (function() {
         clearFields: function() {
             var fields, fieldArr;
 
-            // Created a variable that returns the description type and value
             fields = document.querySelectorAll(DOMstrings.descriptionType + ', ' + DOMstrings.valueType);
 
             fieldArr = Array.prototype.slice.call(fields);
@@ -425,7 +411,7 @@ var budgetController =  (function() {
             
                 // 5. Calculate and update percentages
                 updatePercentages();
-            } else if (input.description == "" || isNaN(input.value) || input.value < 0) {
+            } else {
                 window.alert("Please enter a valid Description and Value");
             }
 
